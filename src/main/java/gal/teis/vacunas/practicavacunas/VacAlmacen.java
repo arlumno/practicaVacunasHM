@@ -151,9 +151,9 @@ public class VacAlmacen {
     public String verVacunasAutorizadas() {
         int contador = 0;
         StringBuilder resultado = new StringBuilder("**Vacunas autorizadas:**\n");
-        for (int i = 0; i < almacen.size(); i++) {
-            if (almacen.get(i).isAutorizada()) {
-                resultado.append(almacen.get(i).getCodigo() + " (" + almacen.get(i).getFechaResultado() + ")\n");
+        for (Vacuna vacuna : almacen.values()) {                  
+            if (vacuna.isAutorizada()) {
+                resultado.append(vacuna.getCodigo() + " (" + vacuna.getFechaResultado() + ")\n");
                 contador++;
             }
         }
@@ -169,9 +169,9 @@ public class VacAlmacen {
     public String verVacunasRechazadas() {
         int contador = 0;
         StringBuilder resultado = new StringBuilder("**Vacunas Rechazadas:**\n");
-        for (int i = 0; i < almacen.size(); i++) {
-            if (almacen.get(i).isRechadaza()) {
-                resultado.append(almacen.get(i).getCodigo() + " (" + almacen.get(i).getFechaResultado() + ")\n");
+        for (Vacuna vacuna : almacen.values()) {                  
+            if (vacuna.isRechadaza()) {
+                resultado.append(vacuna.getCodigo() + " (" + vacuna.getFechaResultado() + ")\n");
                 contador++;
             }
         }
@@ -187,9 +187,9 @@ public class VacAlmacen {
     public String verVacunasPendientes() {
         int contador = 0;
         StringBuilder resultado = new StringBuilder("**Vacunas Pendientes:**\n");
-        for (int i = 0; i < almacen.size(); i++) {
-            if (!almacen.get(i).isRechadaza() && !almacen.get(i).isAutorizada()) {
-                resultado.append(almacen.get(i).getCodigo() + "\n");
+        for (Vacuna vacuna : almacen.values()) {                  
+            if (!vacuna.isRechadaza() && !vacuna.isAutorizada()) {
+                resultado.append(vacuna.getCodigo() + "\n");
                 contador++;
             }
         }
@@ -206,9 +206,9 @@ public class VacAlmacen {
         int contador = 0;
 
         StringBuilder resultado = new StringBuilder("**Vacunas Estado:**\n\n");
-        for (int i = 0; i < almacen.size(); i++) {
-            resultado.append(almacen.get(i).getCodigo() + " : ");
-            resultado.append(almacen.get(i).investigacionActual() + "\n");
+        for (Vacuna vacuna : almacen.values()) {                  
+            resultado.append(vacuna.getCodigo() + " : ");
+            resultado.append(vacuna.investigacionActual() + "\n");
             contador++;
         }
         resultado.append("**Fin. (" + contador + ") Resultados**");
