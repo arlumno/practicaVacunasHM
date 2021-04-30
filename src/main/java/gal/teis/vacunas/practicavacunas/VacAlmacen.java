@@ -10,24 +10,38 @@ import java.util.Iterator;
 public class VacAlmacen {
 
     private HashMap<String, Vacuna> almacen = new HashMap<String, Vacuna>();
-
-    public boolean comprobarExiteVacuna(String codigo){
+    
+    /*** INICIO METODOS EXTRA ***/
+    
+    /**
+     * Comprueba si existe la vacuna con el codigo dado.
+     * @param codigo ref de la vacuna
+     * @return devuelve True si encuentra el codigo en el almacen.
+     */
+    public boolean existeVacuna(String codigo){
         boolean resultado = false;
         if(almacen.containsKey(codigo)){
             resultado = true;
         }
         return resultado;
     }
-    // public int indiceVacuna(String codigo) 
-    // no necesario con HashMap
-    public int faseActual(String codigo) {
-        int resultado = -1;
-        if (almacen.containsKey(codigo)) {
-            resultado = (almacen.get(codigo).getFasesCompletadas() + 1);
+    
+    /**
+     *  Indica en que fase se encuentra actualmente.
+     * @param codigo
+     * @return devuelve tipo Int. La última fase pendiente de evaluar, o <b>"0"</b>  si no existe la vacuna. <b>"4"</b>  si ya ha realizado las 3 fases.
+     */    
+    public byte faseActual(String codigo) {
+        byte resultado = 0;
+        if (almacen.containsKey(codigo) && almacen.get(codigo).getFasesCompletadas() != 3) {
+            resultado = (byte) (almacen.get(codigo).getFasesCompletadas() + 1);
         }
         return resultado;
     }
 
+    /*** FIN METODOS EXTRA ***/
+    
+    
     /**
      * 1.Listar todas las vacunas y mostrar todos sus datos
      *
@@ -101,20 +115,17 @@ public class VacAlmacen {
      */
     public boolean grabarResultadoFaseVacuna(String codigo, boolean resultadoFase, byte fase) {
         boolean resultado = false;
-        
+      
         if (almacen.containsKey(codigo)) {
             switch (fase) {
-                case 1:
-                    almacen.get(codigo).setFase1Superada(resultadoFase);
-                    resultado = true;
+                case 1:                    
+                    resultado = almacen.get(codigo).setFase1Superada(resultadoFase);
                     break;
-                case 2:
-                    almacen.get(codigo).setFase2Superada(resultadoFase);
-                    resultado = true;
+                case 2:                    
+                    resultado = almacen.get(codigo).setFase2Superada(resultadoFase);
                     break;
-                case 3:
-                    almacen.get(codigo).setFase3Superada(resultadoFase);
-                    resultado = true;
+                case 3:                    
+                    resultado = almacen.get(codigo).setFase3Superada(resultadoFase);
                     break;
             }
         }
