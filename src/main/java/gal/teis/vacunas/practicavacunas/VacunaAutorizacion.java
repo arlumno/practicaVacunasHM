@@ -60,10 +60,10 @@ public abstract class VacunaAutorizacion implements IAautorizable {
      *
      * @param fase1Superada
      */
-    public boolean setFase1Superada(boolean fase1Superada) {
+    public boolean setFase1Superada(boolean superada) {
         boolean resultado = false;
         if (fasesCompletadas == 0 && setFasesCompletadas()) {
-            this.fase1Superada = fase1Superada;
+            this.fase1Superada = superada;
             resultado = true;
         }
         return resultado;
@@ -75,10 +75,10 @@ public abstract class VacunaAutorizacion implements IAautorizable {
      *
      * @param fase2Superada
      */
-    public boolean setFase2Superada(boolean fase2Superada) {
+    public boolean setFase2Superada(boolean superada) {
         boolean resultado = false;
         if (fasesCompletadas == 1 && setFasesCompletadas()) {
-            this.fase2Superada = fase2Superada;
+            this.fase2Superada = superada;
             resultado = true;
         }
         return resultado;
@@ -90,10 +90,10 @@ public abstract class VacunaAutorizacion implements IAautorizable {
      *
      * @param fase3Superada
      */
-    public boolean setFase3Superada(boolean fase1Superada) {
+    public boolean setFase3Superada(boolean superada) {
         boolean resultado = false;
         if (fasesCompletadas == 2 && setFasesCompletadas()) {
-            this.fase3Superada = fase3Superada;
+            this.fase3Superada = superada;
             resultado = true;
         }
         return resultado;
@@ -115,10 +115,18 @@ public abstract class VacunaAutorizacion implements IAautorizable {
         fechaResultado = LocalDate.now();
     }
 
+    /**
+     * Comprueba si cumple los requisitos para ser Autorizada, todas las fases superadas y no hay sido rechazada.
+     * @return 
+     */
+    public boolean aptaAutorizar() {        
+        return (!rechazada && fasesCompletadas == 3 && isFase1Superada() && isFase2Superada() && isFase3Superada());
+    }    
+    
     @Override
     public boolean autorizar() {        
-        //si no ha sido rechazada o autorizada. y hay completado todas las fases.
-        if (!rechazada && !autorizada && fasesCompletadas == 3 && isFase1Superada() && isFase2Superada() && isFase3Superada()) {
+        //comprueba si no hay sido autorizada anteriormente y si es apta.
+        if (!autorizada && aptaAutorizar()) {
             autorizada = true;
             setFechaResultado();
         }
@@ -127,7 +135,8 @@ public abstract class VacunaAutorizacion implements IAautorizable {
 
     @Override
     public boolean rechazar() {
-        if (!rechazada) { //solo podemos cambiarlo si no ha sido cambiado
+        //comprueba si no ha sido rechazada anteriormente. Una vacuna autorizada puede ser rechazada.
+        if (!rechazada) { 
             rechazada = true;
             autorizada = false; 
             setFechaResultado();
@@ -152,7 +161,6 @@ public abstract class VacunaAutorizacion implements IAautorizable {
                 resultado = "Fase 3 completada. Resultado: " + (fase3Superada ? "superada" : "no superada");
                 break;
         }
-
         return resultado;
     }
 }

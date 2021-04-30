@@ -27,13 +27,26 @@ public class VacAlmacen {
     }
     
     /**
+     *  Comprueba si una vacuna es apta para ser autorizada
+     * @param codigo
+     * @return 
+     */    
+    public boolean aptaAutorizar(String codigo) {
+        boolean resultado = false;
+        if (almacen.containsKey(codigo)) {
+            resultado = almacen.get(codigo).aptaAutorizar();
+        }
+        return resultado;
+    }
+    
+    /**
      *  Indica en que fase se encuentra actualmente.
      * @param codigo
      * @return devuelve tipo Int. La última fase pendiente de evaluar, o <b>"0"</b>  si no existe la vacuna. <b>"4"</b>  si ya ha realizado las 3 fases.
      */    
     public byte faseActual(String codigo) {
         byte resultado = 0;
-        if (almacen.containsKey(codigo) && almacen.get(codigo).getFasesCompletadas() != 3) {
+        if (almacen.containsKey(codigo)) {
             resultado = (byte) (almacen.get(codigo).getFasesCompletadas() + 1);
         }
         return resultado;
