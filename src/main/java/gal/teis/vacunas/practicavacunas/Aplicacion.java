@@ -196,7 +196,7 @@ public class Aplicacion {
                 System.out.println(Salidas.infoOpc5Fase(faseActual));
                 System.out.println(Salidas.pedirOpc5Autorizar(faseActual));
                 resultadoFase = Entradas.pedirBoolean(lector);
-
+/// VER FORMATEAR CONSTANTE %
                 if (almacen.grabarResultadoFaseVacuna(codigo, resultadoFase, faseActual)) {
                     if (resultadoFase) {
                         System.out.println("Vacuna actualizada. Fase: " + faseActual + " Superada");
