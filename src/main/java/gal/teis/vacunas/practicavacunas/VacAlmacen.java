@@ -1,7 +1,7 @@
 package gal.teis.vacunas.practicavacunas;
 
+import ar.csdam.pr.libreriaar.Entradas;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  *
@@ -61,11 +61,11 @@ public class VacAlmacen {
      * @return String
      */
     public String verVacunasDetalladas() {
-        StringBuilder resultado = new StringBuilder("**Vacunas Detalladas:**\n\n");
+        StringBuilder resultado = new StringBuilder(Salidas.TITULO_V_DETALLADAS+"\n\n");
         for (Vacuna vacuna : almacen.values()) {
             resultado.append(vacuna.toString() + "\n");
         }
-        resultado.append("**Fin. (" + almacen.size() + ") Resultados**");
+        resultado.append(Salidas.finResultados(almacen.size()));
         return resultado.toString();
     }
 
@@ -78,9 +78,9 @@ public class VacAlmacen {
      * la encuentra.
      */
     public String verVacuna(String codigo) {
-        String resultado = "Vacuna no encontrada.";
+        String resultado = Salidas.V_NO_ENCONTRADA;
         if (almacen.containsKey(codigo)) {
-            resultado = almacen.get(codigo).toString();
+            resultado = almacen.get(codigo).toString();            
         }
         return resultado;
     }
@@ -174,14 +174,14 @@ public class VacAlmacen {
      */
     public String verVacunasAutorizadas() {
         int contador = 0;
-        StringBuilder resultado = new StringBuilder("**Vacunas autorizadas:**\n");
+        StringBuilder resultado = new StringBuilder(Salidas.TITULO_V_AUTORIZADAS + "\n");
         for (Vacuna vacuna : almacen.values()) {                  
             if (vacuna.isAutorizada()) {
                 resultado.append(vacuna.getCodigo() + " (" + vacuna.getFechaResultado() + ")\n");
                 contador++;
             }
         }
-        resultado.append("**Fin. (" + contador + ") Resultados**");
+        resultado.append(Salidas.finResultados(contador));
         return resultado.toString();
     }
 
@@ -192,14 +192,14 @@ public class VacAlmacen {
      */
     public String verVacunasRechazadas() {
         int contador = 0;
-        StringBuilder resultado = new StringBuilder("**Vacunas Rechazadas:**\n");
+        StringBuilder resultado = new StringBuilder(Salidas.TITULO_V_RECHAZADAS + "\n");
         for (Vacuna vacuna : almacen.values()) {                  
             if (vacuna.isRechadaza()) {
                 resultado.append(vacuna.getCodigo() + " (" + vacuna.getFechaResultado() + ")\n");
                 contador++;
             }
         }
-        resultado.append("**Fin. (" + contador + ") Resultados**");
+        resultado.append(Salidas.finResultados(contador));
         return resultado.toString();
     }
 
@@ -210,14 +210,14 @@ public class VacAlmacen {
      */
     public String verVacunasPendientes() {
         int contador = 0;
-        StringBuilder resultado = new StringBuilder("**Vacunas Pendientes:**\n");
+        StringBuilder resultado = new StringBuilder(Salidas.TITULO_V_PENDIENTES + "\n");
         for (Vacuna vacuna : almacen.values()) {                  
             if (!vacuna.isRechadaza() && !vacuna.isAutorizada()) {
                 resultado.append(vacuna.getCodigo() + "\n");
                 contador++;
             }
         }
-        resultado.append("**Fin. (" + contador + ") Resultados**");
+        resultado.append(Salidas.finResultados(contador));
         return resultado.toString();
     }
 
@@ -229,13 +229,13 @@ public class VacAlmacen {
     public String verVacunasUltimaFase() {
         int contador = 0;
 
-        StringBuilder resultado = new StringBuilder("**Vacunas Estado:**\n\n");
+        StringBuilder resultado = new StringBuilder(Salidas.TITULO_V_ESTADO + "\n\n");
         for (Vacuna vacuna : almacen.values()) {                  
             resultado.append(vacuna.getCodigo() + " : ");
             resultado.append(vacuna.investigacionActual() + "\n");
             contador++;
         }
-        resultado.append("**Fin. (" + contador + ") Resultados**");
+        resultado.append(Salidas.finResultados(contador));
         return resultado.toString();
     }
 }

@@ -5,7 +5,6 @@
  */
 package gal.teis.vacunas.practicavacunas;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -38,27 +37,43 @@ public class Vacuna extends VacunaAutorizacion {
         this.pvp = pvp;
     }
 
+    /**
+     * Modifica el precio de la vacuna
+     * @param pvp tipo Double, precio de venta al público.
+     */
     public void setPvp(double pvp) {
         this.pvp = pvp;
     }
 
+    /**
+     * Obtiene el precio de venta al público
+     * @return Double
+     */
     public double getPvp() {
         return pvp;
     }
 
+    /**
+     * Devuelve el código de la vacuna
+     * @return String
+     */
     public String getCodigo() {
         return codigo;
     }
-
-    //pendiente de terminar o rehacer******Usar expresión regular
+    
+    /**
+     * Valida  si un código cumple los requisitos requerido.<br>
+     * Letra V + vocal en mayúsculas + tres o cuatro letras minúsculas 
+     * + dos números del 4 al 7, o solo el número 8.
+     * 
+     * @param codigo codigo a evaluar
+     * @return True si el código cumple los requisitos
+     */
     public static boolean validarCodigo(String codigo) {
-
-// letra V + vocal en mayúsculas + tres o cuatro letras minúsculas 
-// + dos números del 4 al 7, o bien con el número 8.
-//        Pattern patron = Pattern.compile("***");
-//        Matcher comparador = patron.matcher(codigo);
-//        return comparador.matches();
-        //version resumida
+        //        Pattern patron = Pattern.compile("***");
+        //        Matcher comparador = patron.matcher(codigo);
+        //        return comparador.matches();
+        //version resumida:
         return Pattern.compile("^V[AEIOU][a-z]{3,4}([4-7]{2}|8)").matcher(codigo).matches();
     }
 

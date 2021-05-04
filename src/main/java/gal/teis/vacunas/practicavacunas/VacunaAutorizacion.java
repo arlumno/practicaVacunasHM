@@ -21,9 +21,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     private boolean autorizada;
     private boolean rechazada;
 
-//    public VacunaAutorizacion(String codigo, String nombre, String principioActivo, String farmaceutica, double pvp) {
-//        super(codigo, nombre, principioActivo, farmaceutica, pvp);
-//    }
+    
     //getters
     public boolean isFase1Superada() {
         return fase1Superada;
@@ -54,9 +52,9 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     //setters
+    
     /**
-     * Solo se cambiará el estado de la fase superada si se encuentra en la
-     * faseCompletada correspondiente.
+     * Solo se cambiará el valor de la fase superada 1 si se encuentra en lafasesCompletadas = 0 (fase inicial)
      *
      * @param fase1Superada
      */
@@ -70,8 +68,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     /**
-     * Solo se cambiará el estado de la fase superada si se encuentra en la
-     * faseCompletada correspondiente.
+     * Solo se cambiará el valor de la fase superada 2 si se encuentra en la fasesCompletadas = 1
      *
      * @param fase2Superada
      */
@@ -85,8 +82,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     /**
-     * Solo se cambiará el estado de la fase superada si se encuentra en la
-     * faseCompletada correspondiente.
+     * Solo se cambiará el valor de la fase superada 3 si se encuentra en la fasesCompletadas = 2
      *
      * @param fase3Superada
      */
@@ -101,6 +97,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
 
     /**
      * Pasa a la siguiente fase. No puede exceder de la fase 3
+     * @return True si realiza la operación con éxito
      */
     private boolean setFasesCompletadas() {
         boolean resultado = false;
@@ -111,12 +108,15 @@ public abstract class VacunaAutorizacion implements IAautorizable {
         return resultado;
     }
 
+    /**
+     * Graba la fecha actual
+     */
     private void setFechaResultado() {
         fechaResultado = LocalDate.now();
     }
 
     /**
-     * Comprueba si cumple los requisitos para ser Autorizada, todas las fases superadas y no hay sido rechazada.
+     * Comprueba si cumple los requisitos para ser Autorizada. Todas las fases superadas con éxito.
      * @return 
      */
     public boolean aptaAutorizar() {        
@@ -140,10 +140,14 @@ public abstract class VacunaAutorizacion implements IAautorizable {
             rechazada = true;
             autorizada = false; 
             setFechaResultado();
-        }
+        }        
         return rechazada;
     }
-
+    
+    /**
+     * Indica la última fase completada y su resultado.
+     * @return 
+     */
     public String investigacionActual() {
         String resultado = "";
 

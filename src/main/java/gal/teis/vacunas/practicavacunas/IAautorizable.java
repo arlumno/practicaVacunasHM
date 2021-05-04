@@ -6,12 +6,12 @@ package gal.teis.vacunas.practicavacunas;
  */
 public interface IAautorizable {   
     /**
-     * que hace que una vacuna esté autorizada para su uso.
+     * Autorizada una vacuna para su uso.
      */
     public boolean autorizar();
     
     /**
-     * que hace que una vacuna no esté autorizada para su uso.
+     * Rechaza una vacuna;
      */
     public boolean rechazar();    
     

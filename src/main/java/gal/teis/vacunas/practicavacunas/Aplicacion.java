@@ -32,7 +32,7 @@ public class Aplicacion {
 
         do {
             try {
-                continuar = menuPrincipal(menu, almacen, lector);
+                continuar = menuAcciones(menu, almacen, lector);
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
@@ -49,23 +49,23 @@ public class Aplicacion {
      */
     private static Menu construirMenuPrincipal(Scanner lector) {
         Menu menu = new Menu(lector);
-        menu.setTituloMenu("Menú Vacunas");
-        menu.addOpcion("Listar todas las vacunas y mostrar todos sus datos"); //1
-        menu.addOpcion("Buscar vacuna"); //2 
-        menu.addOpcion("Agregar vacuna"); //3
-        menu.addOpcion("Eliminar vacuna"); //4
-        menu.addOpcion("Introducir resultado de las fases de la vacuna"); //5
-        menu.addOpcion("Autorizar/Rechazar vacuna"); //6
-        menu.addOpcion("Ver vacunas autorizadas"); //7
-        menu.addOpcion("Ver vacunas rechazadas"); //8
-        menu.addOpcion("Ver vacunas pendientes de autorizar/rechazar"); //9
-        menu.addOpcion("Ver la última fase investigada de cada vacuna almacenada"); //10
-        menu.addOpcion("Cargar Vacunas de ejemplo"); //10
-        menu.addOpcion("Comprueba si un codigo es Valido"); //10
+        menu.setTituloMenu(Salidas.TITULO_MENU);
+        menu.addOpcion(Salidas.MENU_OPC_01); //1
+        menu.addOpcion(Salidas.MENU_OPC_02); //2 
+        menu.addOpcion(Salidas.MENU_OPC_03); //3
+        menu.addOpcion(Salidas.MENU_OPC_04); //4
+        menu.addOpcion(Salidas.MENU_OPC_05); //5
+        menu.addOpcion(Salidas.MENU_OPC_06); //6
+        menu.addOpcion(Salidas.MENU_OPC_07); //7
+        menu.addOpcion(Salidas.MENU_OPC_08); //8
+        menu.addOpcion(Salidas.MENU_OPC_09); //9
+        menu.addOpcion(Salidas.MENU_OPC_10); //10
+        menu.addOpcion(Salidas.MENU_OPC_11); //11
+        menu.addOpcion(Salidas.MENU_OPC_12); //12
         return menu;
     }
 
-    private static boolean menuPrincipal(Menu menu, VacAlmacen almacen, Scanner lector) throws Exception {
+    private static boolean menuAcciones(Menu menu, VacAlmacen almacen, Scanner lector) throws Exception {
         boolean continuar = true;
         menu.mostrar();
         switch (menu.getSeleccion()) {
@@ -127,7 +127,7 @@ public class Aplicacion {
 
     private static void opcion02(Scanner lector, VacAlmacen almacen) {
         //2.Buscar vacuna.
-        System.out.println("Indíca el codigo a buscar");
+        System.out.println(Salidas.INFO_OPC_02);
         String codigo = Entradas.pedirString(lector);
         System.out.println(almacen.verVacuna(codigo));
     }
@@ -136,31 +136,31 @@ public class Aplicacion {
         //3.Agregar vacuna.
         Vacuna vacuna;
         String codigo;
-        System.out.println("Datos para nueva Vacuna:");
+        System.out.println(Salidas.INFO_OPC_03);
         boolean codigoValido = false;
         do {
-            System.out.println("Indíca el codigo");
+            System.out.println(Salidas.PEDIR_CODIGO);
             codigo = Entradas.pedirString(lector);
             if (Vacuna.validarCodigo(codigo)) {
                 codigoValido = true;
             } else {
-                System.out.println("El codigo no cumple los requisitos");
+                System.out.println(Salidas.ERROR_CODIGO);
             }
         } while (!codigoValido);
-        System.out.println("Indíca el nombre");
+        System.out.println(Salidas.PEDIR_NOMBRE);
         String nombre = Entradas.pedirString(lector);
-        System.out.println("Indíca el principio activo");
+        System.out.println(Salidas.PEDIR_PRINCIPIO_ACTIVO);
         String princioActivo = Entradas.pedirString(lector);
-        System.out.println("Indíca el farmacéutica");
+        System.out.println(Salidas.PEDIR_FARMACEUTICA);
         String farmaceutica = Entradas.pedirString(lector);
-        System.out.println("Indíca el precio");
+        System.out.println(Salidas.PEDIR_PVP);
         double precio = Entradas.pedirDouble(lector);
         if (Vacuna.validarCodigo(codigo)) {
             vacuna = new Vacuna(codigo, nombre, princioActivo, farmaceutica, precio);
             if (almacen.agregarVacuna(vacuna)) {
-                System.out.println("Vacuna agregada al almacen.");
+                System.out.println(Salidas.EXITO_OPC_03);
             } else {
-                System.out.println("Error al agregar Vacuna.");
+                System.out.println(Salidas.ERROR_OPC_03);
             }
         }
     }
@@ -168,12 +168,14 @@ public class Aplicacion {
     private static void opcion04(Scanner lector, VacAlmacen almacen) {
         //4.Eliminar vacuna.
         String codigo;
-        System.out.println("Indica el codigo a eliminar");
+        
+        System.out.println(Salidas.INFO_OPC_04);
+        System.out.println(Salidas.PEDIR_CODIGO);
         codigo = Entradas.pedirString(lector);
         if (almacen.eliminarVacuna(codigo)) {
-            System.out.println("Vacuna " + codigo + " eliminada");
+            System.out.println(Salidas.EXITO_OPC_04);
         } else {
-            System.out.println("No se ha encontrado la vacuna " + codigo);
+            System.out.println(Salidas.ERROR_OPC_04);
         }
         return;
     }
@@ -183,14 +185,16 @@ public class Aplicacion {
         String codigo;
         byte faseActual;
         boolean resultadoFase;
-        System.out.println("Indica el codigo de la vacuna");
+
+        System.out.println(Salidas.INFO_OPC_05);        
+        System.out.println(Salidas.PEDIR_CODIGO);
         codigo = Entradas.pedirString(lector);
 
         if (almacen.existeVacuna(codigo)) {
             faseActual = almacen.faseActual(codigo);
             if (faseActual != 4) {
-                System.out.println("Vacuna encontrada. Fase Actual: " + faseActual);
-                System.out.println("¿Es Favorable el resultado de la fase "+ faseActual+ "?, escribe SI o NO");
+                System.out.println(Salidas.infoOpc5Fase(faseActual));
+                System.out.println(Salidas.pedirOpc5Autorizar(faseActual));
                 resultadoFase = Entradas.pedirBoolean(lector);
 
                 if (almacen.grabarResultadoFaseVacuna(codigo, resultadoFase, faseActual)) {

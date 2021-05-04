@@ -1,0 +1,2 @@
+Pendiente de terminar de revisar que el programa funciona correctamente y no tiene bugs.
+Si me da tiempo, implementaré unos metodos para crear listas de los codigos de vacunas según su estado, para usarlo como ayuda en el menú.
