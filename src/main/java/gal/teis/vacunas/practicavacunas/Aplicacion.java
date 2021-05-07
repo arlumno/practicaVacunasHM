@@ -168,7 +168,7 @@ public class Aplicacion {
     private static void opcion04(Scanner lector, VacAlmacen almacen) {
         //4.Eliminar vacuna.
         String codigo;
-        
+
         System.out.println(Salidas.INFO_OPC_04);
         System.out.println(Salidas.PEDIR_CODIGO);
         codigo = Entradas.pedirString(lector);
@@ -186,31 +186,30 @@ public class Aplicacion {
         byte faseActual;
         boolean resultadoFase;
 
-        System.out.println(Salidas.INFO_OPC_05);        
+        System.out.println(Salidas.INFO_OPC_05);
         System.out.println(Salidas.PEDIR_CODIGO);
         codigo = Entradas.pedirString(lector);
 
         if (almacen.existeVacuna(codigo)) {
-            faseActual = almacen.faseActual(codigo);
-            if (faseActual != 4) {
-                System.out.println(Salidas.infoOpc5Fase(faseActual));
-                System.out.println(Salidas.pedirOpc5Autorizar(faseActual));
+            if (almacen.aptaPruebas(codigo)){
+                faseActual = almacen.faseActual(codigo);
+                System.out.println(Salidas.Opc5InfoFase(faseActual));
+                System.out.println(Salidas.Opc5PedirAutorizar(faseActual));
                 resultadoFase = Entradas.pedirBoolean(lector);
-/// VER FORMATEAR CONSTANTE %
                 if (almacen.grabarResultadoFaseVacuna(codigo, resultadoFase, faseActual)) {
                     if (resultadoFase) {
-                        System.out.println("Vacuna actualizada. Fase: " + faseActual + " Superada");
+                        System.out.println(Salidas.Opc5FaseSuperada(faseActual));
                     } else {
-                        System.out.println("Vacuna actualizada. Fase: " + faseActual + " No Superada");
+                        System.out.println(Salidas.Opc5FaseNoSuperada(faseActual));
                     }
                 } else {
-                    System.out.println("Error al actualizar vacuna.");
+                    System.out.println(Salidas.ERROR_OPC_05_01);
                 }
             } else {
-                System.out.println("La vacuna NO tiene fases pendientes.");
+                System.out.println(Salidas.ERROR_OPC_05_02);
             }
         } else {
-            System.out.println("El codigo NO corresponde a ninguna vacuna del almacén");
+            System.out.println(Salidas.ERROR_OPC_05_03);
         }
     }
 
@@ -219,38 +218,38 @@ public class Aplicacion {
         String codigo;
         boolean resultado = false;
 
-        System.out.println("Indica el codigo de la vacuna");
+        System.out.println(Salidas.INFO_OPC_06);
+        System.out.println(Salidas.PEDIR_CODIGO);
         codigo = Entradas.pedirString(lector);
 
         if (almacen.existeVacuna(codigo)) {
             if (almacen.aptaAutorizar(codigo)) {
-                System.out.println("¿Resultado FINAL?, escribe AUTORIZAR o RECHAZAR");
-                resultado = Entradas.pedirBoolean(lector, "AUTORIZAR", "RECHAZAR");
+                System.out.println(Salidas.PEDIR_OPC_06_AUTORIZAR_RECHAZAR);
+                resultado = Entradas.pedirBoolean(lector, Salidas.INFO_OPC_06_AUTORIZAR, Salidas.INFO_OPC_06_RECHAZAR);
                 if (almacen.grabarResultadoFinalVacuna(codigo, resultado)) {
                     if (resultado) {
-                        System.out.println("Vacuna AUTORIZADA.");
+                        System.out.println(Salidas.EXITO_OPC_06_AUTORIZADA);
                     } else {
-                        System.out.println("Vacuna RECHAZADA.");
+                        System.out.println(Salidas.EXITO_OPC_06_RECHAZADA);
                     }
                 } else {
-                    System.out.println("Error al actualizar vacuna.");
+                    System.out.println(Salidas.ERROR_OPC_06_01);
                 }
             } else {
-                System.out.println("La vacuna no es Apta para ser Autorizada. ¿Desea rechazarla?");
-                System.out.println("Escribe SI o NO");
-                resultado = Entradas.pedirBoolean(lector, "SI", "NO");
+                System.out.println(Salidas.PEDIR_OPC_06_RECHAZAR);
+                resultado = Entradas.pedirBoolean(lector, Salidas.BOOLEAN_SI, Salidas.BOOLEAN_NO);
                 if (resultado) { //ahora resultado indicas si se quiere Rechazar
                     if (almacen.grabarResultadoFinalVacuna(codigo, false)) {
-                        System.out.println("Vacuna RECHAZADA.");
+                        System.out.println(Salidas.EXITO_OPC_06_RECHAZADA);
                     } else {
-                        System.out.println("Error al actualizar vacuna.");
+                        System.out.println(Salidas.ERROR_OPC_06_01);
                     }
                 } else {
-                    System.out.println("Proceso Anulado.");
+                    System.out.println(Salidas.EXITO_OPC_06_ANULAR);
                 }
             }
         } else {
-            System.out.println("El codigo NO corresponde a ninguna vacuna del almacén");
+            System.out.println(Salidas.ERROR_OPC_06_02);
         }
     }
 
@@ -262,28 +261,28 @@ public class Aplicacion {
     private static void opcion11extra(VacAlmacen almacen) {
         //EXTRA- cargar conjunto de vacunas de ejemplo.
         Vacuna vacuna;
-        
+
         vacuna = new Vacuna("VAedf45", "COVID-19 AstraZeneca", "Adenovirus de chimpacé", "AstraZeneca", 12.44);
         almacen.agregarVacuna(vacuna);
         almacen.grabarResultadoFaseVacuna("VAedf45", true, (byte) 1);
         almacen.grabarResultadoFaseVacuna("VAedf45", true, (byte) 2);
         almacen.grabarResultadoFaseVacuna("VAedf45", true, (byte) 3);
-        
+
         vacuna = new Vacuna("VIhdf67", "mRNA-1273", "ARNm", "ModernaTX, Inc.", 9.95);
         almacen.agregarVacuna(vacuna);
         almacen.grabarResultadoFaseVacuna("VIhdf67", true, (byte) 1);
         almacen.grabarResultadoFaseVacuna("VIhdf67", false, (byte) 2);
         almacen.grabarResultadoFaseVacuna("VIhdf67", true, (byte) 3);
-        
+
         vacuna = new Vacuna("VOhef46", "ejemplo", "Tiene cosas", "ACME, Inc.", 999.95);
         almacen.agregarVacuna(vacuna);
         almacen.grabarResultadoFaseVacuna("VOhef46", true, (byte) 1);
-        
-        
+        almacen.grabarResultadoFinalVacuna("VOhef46", false);
+
         vacuna = new Vacuna("VEfff8", "JNJ-78436735", " vector viral ", "Janssen Pharmaceuticals", 19.95);
         almacen.agregarVacuna(vacuna);
-        
-        System.out.println("---Vacunas cargadas---");
+
+        System.out.println(Salidas.EXITO_OPC_11);
     }
 
     /**
@@ -295,17 +294,14 @@ public class Aplicacion {
     private static void opcion12extra(Scanner lector) {
         String codigo;
 
-        System.out.println("Indica el codigo de la vacuna");
+        System.out.println(Salidas.INFO_OPC_12);
+        System.out.println(Salidas.PEDIR_CODIGO);
         codigo = Entradas.pedirString(lector);
         //comprobar codigo       
         if (Vacuna.validarCodigo(codigo)) {
-            System.out.println("El codigo es váido");
+            System.out.println(Salidas.EXITO_CODIGO);
         } else {
-            System.out.println("Codigo incorrecto.");
-            System.out.println("• El codigo tendrá el siguiente formato:\n"
-                    + "o Comenzará por la letra V seguida de una vocal en mayúsculas.\n"
-                    + "o A continuación, tres o cuatro letras minúsculas.\n"
-                    + "o Finaliza, o con dos números del 4 al 7, o bien con el número 8");
+            System.out.println(Salidas.ERROR_CODIGO);
         }
     }
 

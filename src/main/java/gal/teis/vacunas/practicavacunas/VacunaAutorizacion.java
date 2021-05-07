@@ -20,6 +20,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     private LocalDate fechaResultado;
     private boolean autorizada;
     private boolean rechazada;
+    
 
     
     //getters
@@ -74,7 +75,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
      */
     public boolean setFase2Superada(boolean superada) {
         boolean resultado = false;
-        if (fasesCompletadas == 1 && setFasesCompletadas()) {
+        if (fasesCompletadas == 1 && fase1Superada && setFasesCompletadas()) {
             this.fase2Superada = superada;
             resultado = true;
         }
@@ -88,7 +89,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
      */
     public boolean setFase3Superada(boolean superada) {
         boolean resultado = false;
-        if (fasesCompletadas == 2 && setFasesCompletadas()) {
+        if (fasesCompletadas == 2 && fase1Superada && fase2Superada &&  setFasesCompletadas()) {
             this.fase3Superada = superada;
             resultado = true;
         }
@@ -122,6 +123,26 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     public boolean aptaAutorizar() {        
         return (!rechazada && fasesCompletadas == 3 && isFase1Superada() && isFase2Superada() && isFase3Superada());
     }    
+    
+    /**
+     * Comprueba si una vacuna es viable para seguir realizando pruebas. 
+     * @return true si se puede 
+     */
+    public boolean aptaPruebas(){
+        boolean resultado = false;
+        switch(fasesCompletadas){
+            case 0:                
+                resultado = true; 
+                break;
+            case 1:
+                resultado = isFase1Superada();
+                break;
+            case 2:
+                resultado = isFase2Superada();
+                break;            
+        }            
+        return resultado;
+    }
     
     @Override
     public boolean autorizar() {        

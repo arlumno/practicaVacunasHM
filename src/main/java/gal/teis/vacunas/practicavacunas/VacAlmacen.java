@@ -1,6 +1,5 @@
 package gal.teis.vacunas.practicavacunas;
 
-import ar.csdam.pr.libreriaar.Entradas;
 import java.util.HashMap;
 
 /**
@@ -35,6 +34,18 @@ public class VacAlmacen {
         boolean resultado = false;
         if (almacen.containsKey(codigo)) {
             resultado = almacen.get(codigo).aptaAutorizar();
+        }
+        return resultado;
+    }
+    /**
+     *  Comprueba si una vacuna es viable para seguir realizando pruebas. 
+     * @param codigo
+     * @return 
+     */    
+    public boolean aptaPruebas(String codigo) {
+        boolean resultado = false;
+        if (almacen.containsKey(codigo)) {
+            resultado = almacen.get(codigo).aptaPruebas();
         }
         return resultado;
     }
@@ -120,7 +131,7 @@ public class VacAlmacen {
     /**
      * 5.Introducir resultado de las fases de la vacuna.
      *
-     * @param Codigo de la vacuna a inscribir
+     * @param codigo de la vacuna a inscribir
      * @param resultadoFase resultado de la fase especifica
      * @param fase numero de la fase a inscribir
      * @return true si realiza la operación con exito, false si no ha podido
@@ -128,7 +139,7 @@ public class VacAlmacen {
      */
     public boolean grabarResultadoFaseVacuna(String codigo, boolean resultadoFase, byte fase) {
         boolean resultado = false;
-      
+        
         if (almacen.containsKey(codigo)) {
             switch (fase) {
                 case 1:                    
