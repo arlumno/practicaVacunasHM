@@ -2,6 +2,10 @@ package gal.teis.vacunas.practicavacunas;
 
 import ar.csdam.pr.libreriaar.Entradas;
 import ar.csdam.pr.libreriaar.Menu;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 /*
@@ -62,6 +66,7 @@ public class Aplicacion {
         menu.addOpcion(Salidas.MENU_OPC_10); //10
         menu.addOpcion(Salidas.MENU_OPC_11); //11
         menu.addOpcion(Salidas.MENU_OPC_12); //12
+        menu.addOpcion(Salidas.MENU_OPC_13); //12
         return menu;
     }
 
@@ -121,23 +126,42 @@ public class Aplicacion {
                 //EXTRA- comprobar los codigos con expresiones regulares
                 opcion12extra(lector);
                 break;
+            case 13:
+                //EXTRA- Instruciones de ayuda.
+                opcion13extra();
+                break;
         }
         return continuar;
     }
-
+    
+    /**
+     * 2.Buscar vacuna.
+     * @param lector
+     * @param almacen 
+     */
     private static void opcion02(Scanner lector, VacAlmacen almacen) {
-        //2.Buscar vacuna.
+        
         System.out.println(Salidas.INFO_OPC_02);
         String codigo = Entradas.pedirString(lector);
         System.out.println(almacen.verVacuna(codigo));
     }
-
+    
+    /**
+     * 3.Agregar vacuna.
+     * @param lector
+     * @param almacen 
+     */
     private static void opcion03(Scanner lector, VacAlmacen almacen) {
-        //3.Agregar vacuna.
+        
         Vacuna vacuna;
         String codigo;
+        String nombre;
+        String princioActivo;
+        String farmaceutica;
+        double precio;
         System.out.println(Salidas.INFO_OPC_03);
         boolean codigoValido = false;
+        
         do {
             System.out.println(Salidas.PEDIR_CODIGO);
             codigo = Entradas.pedirString(lector);
@@ -147,26 +171,35 @@ public class Aplicacion {
                 System.out.println(Salidas.ERROR_CODIGO);
             }
         } while (!codigoValido);
+        
         System.out.println(Salidas.PEDIR_NOMBRE);
-        String nombre = Entradas.pedirString(lector);
+        nombre = Entradas.pedirString(lector);
+        
         System.out.println(Salidas.PEDIR_PRINCIPIO_ACTIVO);
-        String princioActivo = Entradas.pedirString(lector);
+        princioActivo = Entradas.pedirString(lector);
+        
         System.out.println(Salidas.PEDIR_FARMACEUTICA);
-        String farmaceutica = Entradas.pedirString(lector);
+        farmaceutica = Entradas.pedirString(lector);
+        
         System.out.println(Salidas.PEDIR_PVP);
-        double precio = Entradas.pedirDouble(lector);
-        if (Vacuna.validarCodigo(codigo)) {
-            vacuna = new Vacuna(codigo, nombre, princioActivo, farmaceutica, precio);
-            if (almacen.agregarVacuna(vacuna)) {
-                System.out.println(Salidas.EXITO_OPC_03);
-            } else {
-                System.out.println(Salidas.ERROR_OPC_03);
-            }
+        precio = Entradas.pedirDouble(lector);
+        
+        vacuna = new Vacuna(codigo, nombre, princioActivo, farmaceutica, precio);
+        
+        if (almacen.agregarVacuna(vacuna)) {
+            System.out.println(Salidas.EXITO_OPC_03);
+        } else {
+            System.out.println(Salidas.ERROR_OPC_03);
         }
+        
     }
 
+    /**
+     * 4.Eliminar vacuna.
+     * @param lector
+     * @param almacen 
+     */
     private static void opcion04(Scanner lector, VacAlmacen almacen) {
-        //4.Eliminar vacuna.
         String codigo;
 
         System.out.println(Salidas.INFO_OPC_04);
@@ -180,8 +213,12 @@ public class Aplicacion {
         return;
     }
 
+    /**
+     * 5.Introducir resultado de las fases de la vacuna.
+     * @param lector
+     * @param almacen 
+     */
     private static void opcion05(Scanner lector, VacAlmacen almacen) {
-        //5.Introducir resultado de las fases de la vacuna.
         String codigo;
         byte faseActual;
         boolean resultadoFase;
@@ -193,9 +230,12 @@ public class Aplicacion {
         if (almacen.existeVacuna(codigo)) {
             if (almacen.aptaPruebas(codigo)){
                 faseActual = almacen.faseActual(codigo);
+                
                 System.out.println(Salidas.Opc5InfoFase(faseActual));
-                System.out.println(Salidas.Opc5PedirAutorizar(faseActual));
+                
+                System.out.println(Salidas.Opc5PedirAutorizar(faseActual));               
                 resultadoFase = Entradas.pedirBoolean(lector);
+                
                 if (almacen.grabarResultadoFaseVacuna(codigo, resultadoFase, faseActual)) {
                     if (resultadoFase) {
                         System.out.println(Salidas.Opc5FaseSuperada(faseActual));
@@ -213,8 +253,12 @@ public class Aplicacion {
         }
     }
 
+    /**
+     * 6.Autorizar/Rechazar vacuna.
+     * @param lector
+     * @param almacen 
+     */
     private static void opcion06(Scanner lector, VacAlmacen almacen) {
-        //6.Autorizar/Rechazar vacuna.
         String codigo;
         boolean resultado = false;
 
@@ -226,6 +270,7 @@ public class Aplicacion {
             if (almacen.aptaAutorizar(codigo)) {
                 System.out.println(Salidas.PEDIR_OPC_06_AUTORIZAR_RECHAZAR);
                 resultado = Entradas.pedirBoolean(lector, Salidas.INFO_OPC_06_AUTORIZAR, Salidas.INFO_OPC_06_RECHAZAR);
+               
                 if (almacen.grabarResultadoFinalVacuna(codigo, resultado)) {
                     if (resultado) {
                         System.out.println(Salidas.EXITO_OPC_06_AUTORIZADA);
@@ -235,9 +280,11 @@ public class Aplicacion {
                 } else {
                     System.out.println(Salidas.ERROR_OPC_06_01);
                 }
+                
             } else {
                 System.out.println(Salidas.PEDIR_OPC_06_RECHAZAR);
                 resultado = Entradas.pedirBoolean(lector, Salidas.BOOLEAN_SI, Salidas.BOOLEAN_NO);
+                
                 if (resultado) { //ahora resultado indicas si se quiere Rechazar
                     if (almacen.grabarResultadoFinalVacuna(codigo, false)) {
                         System.out.println(Salidas.EXITO_OPC_06_RECHAZADA);
@@ -247,6 +294,7 @@ public class Aplicacion {
                 } else {
                     System.out.println(Salidas.EXITO_OPC_06_ANULAR);
                 }
+                
             }
         } else {
             System.out.println(Salidas.ERROR_OPC_06_02);
@@ -303,6 +351,24 @@ public class Aplicacion {
         } else {
             System.out.println(Salidas.ERROR_CODIGO);
         }
+    }
+    
+    private static void opcion13extra() { 
+        try{
+            FileReader archivo = new FileReader(Salidas.FILE_OPC_13,Charset.forName("utf-8"));            
+            BufferedReader br = new BufferedReader(archivo);
+            String linea;
+            while((linea = br.readLine()) !=null){
+                System.out.println(linea);                
+            }
+        }catch(FileNotFoundException e){
+            System.out.println(Salidas.ERROR_OPC_13);
+        }catch(Exception e){
+            System.out.println(e.toString());
+        }
+           // Long lFlags= (long) json.get("Flags");
+           // String flags = Long.toBinaryString((long) json.get("Flags"));        
+
     }
 
 }

@@ -1,2 +1,68 @@
-Pendiente de terminar de revisar que el programa funciona correctamente y no tiene bugs.
-Si me da tiempo, implementaré unos metodos para crear listas de los codigos de vacunas según su estado, para usarlo como ayuda en el menú.
+******************************
+Opciones y Descripción
+
+1.- Listar todas las vacunas y mostrar todos sus datos
+	Muestra un listado de todas las vacunas con detalle. En caso de las vacunas Autorizadas, se indicará adicionalmente la Farmaceutica y el PVP
+
+2.- Buscar vacuna
+	Muestra información detalla según el código de Vacuna especificado.
+
+3.- Agregar vacuna
+	Añade una nueva vacuna al almacen.
+	Requisitos: 
+		-Código con estructura válido. (puede comprobar si un código tiene la estructura correcta en la opción 12)
+		-Código no existente en almacén. (No se admiten duplicidades)
+		-Nombre
+		-Principio Activo
+		-Farmaceutica
+		-Precio de venta al público
+		
+4.- Eliminar vacuna	
+	Elimina una vacuna del almacen.
+	Requisitos: 
+		- Codigo de Vacuna en el almacen.
+
+5.- Introducir resultado de las fases de la vacuna
+	Evalua la fase en curso de la vacuna indicada. Se informará de la fase actual de la vacuna a evaluar.
+	Requisitos: 
+		- Codigo de Vacuna apta para evaluar.
+			No haber sido rechazada 
+			Tener la fase en curso pendiente de evaluar y
+			Haber superado las fases previas.
+		- Evaluación de si supera la fase o no la supera.
+
+6.- Autorizar/Rechazar vacuna
+	Autoriza o Rechaza una vacuna. En caso de que debido a su estado actual no se pueda Autorizar, dara la opción de Rechazarla o cancelar la operación.
+	Requisitos: 		
+		- Codigo de Vacuna en el almacen.
+	Requisitos para Autorizar: 		
+		- Debe haber superado todas las fases.
+		- No puede haber sido rechazada o autorizada previamente
+	Requisitos para Rechazar: 		
+		- No puede haber sido rechazada previamente
+
+7.- Ver vacunas autorizadas
+	Muestra un listado de códigos de las vacunas autorizadas y la fecha en la que fueron autorizadas.
+
+8.- Ver vacunas rechazadas
+	Muestra un listado de códigos de las vacunas rechazadas y la fecha en la que fueron rechazadas.
+
+9.- Ver vacunas pendientes de autorizar/rechazar
+	Muestra un listado de códigos de las vacunas pendientes de autorizar o rechazar.
+
+10.- Ver la última fase investigada de cada vacuna almacenada
+	Muestra un listado de códigos de las vacunas con la última fase que se ha evaluado y el resultado de la misma.
+
+11.- Cargar Vacunas de ejemplo
+	Agrega unas cuantas vacunas de ejemplo para probrar el programa.
+
+12.- Comprueba si un código es Valido
+	Indica si el codigo proporcionado es valido según la estructura siguiente:
+		o Comenzará por la letra V seguida de una vocal en mayúsculas.
+		o A continuación, tres o cuatro letras minúsculas.
+		o Finaliza, o con dos números del 4 al 7, o bien con el número 8
+	Requisitos: 		
+		- Codigo 
+
+13.- AYUDA / INSTRUCCIONES
+	Muestra este documento. También accesible como archivo txt.

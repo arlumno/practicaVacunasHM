@@ -20,9 +20,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     private LocalDate fechaResultado;
     private boolean autorizada;
     private boolean rechazada;
-    
 
-    
     //getters
     public boolean isFase1Superada() {
         return fase1Superada;
@@ -53,9 +51,9 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     //setters
-    
     /**
-     * Solo se cambiará el valor de la fase superada 1 si se encuentra en lafasesCompletadas = 0 (fase inicial)
+     * Solo se cambiará el valor de la fase superada 1 si se encuentra en
+     * lafasesCompletadas = 0 (fase inicial)
      *
      * @param fase1Superada
      */
@@ -69,7 +67,8 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     /**
-     * Solo se cambiará el valor de la fase superada 2 si se encuentra en la fasesCompletadas = 1
+     * Solo se cambiará el valor de la fase superada 2 si se encuentra en la
+     * fasesCompletadas = 1
      *
      * @param fase2Superada
      */
@@ -83,13 +82,14 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     /**
-     * Solo se cambiará el valor de la fase superada 3 si se encuentra en la fasesCompletadas = 2
+     * Solo se cambiará el valor de la fase superada 3 si se encuentra en la
+     * fasesCompletadas = 2
      *
      * @param fase3Superada
      */
     public boolean setFase3Superada(boolean superada) {
         boolean resultado = false;
-        if (fasesCompletadas == 2 && fase1Superada && fase2Superada &&  setFasesCompletadas()) {
+        if (fasesCompletadas == 2 && fase1Superada && fase2Superada && setFasesCompletadas()) {
             this.fase3Superada = superada;
             resultado = true;
         }
@@ -98,6 +98,7 @@ public abstract class VacunaAutorizacion implements IAautorizable {
 
     /**
      * Pasa a la siguiente fase. No puede exceder de la fase 3
+     *
      * @return True si realiza la operación con éxito
      */
     private boolean setFasesCompletadas() {
@@ -117,35 +118,40 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     }
 
     /**
-     * Comprueba si cumple los requisitos para ser Autorizada. Todas las fases superadas con éxito.
-     * @return 
+     * Comprueba si cumple los requisitos para ser Autorizada. Todas las fases
+     * superadas con éxito.
+     *
+     * @return
      */
-    public boolean aptaAutorizar() {        
+    public boolean aptaAutorizar() {
         return (!rechazada && fasesCompletadas == 3 && isFase1Superada() && isFase2Superada() && isFase3Superada());
-    }    
-    
+    }
+
     /**
-     * Comprueba si una vacuna es viable para seguir realizando pruebas. 
-     * @return true si se puede 
+     * Comprueba si una vacuna es viable para seguir realizando pruebas.
+     *
+     * @return true si se puede
      */
-    public boolean aptaPruebas(){
+    public boolean aptaPruebas() {
         boolean resultado = false;
-        switch(fasesCompletadas){
-            case 0:                
-                resultado = true; 
-                break;
-            case 1:
-                resultado = isFase1Superada();
-                break;
-            case 2:
-                resultado = isFase2Superada();
-                break;            
-        }            
+        if (!rechazada) {
+            switch (fasesCompletadas) {
+                case 0:
+                    resultado = true;
+                    break;
+                case 1:
+                    resultado = isFase1Superada();
+                    break;
+                case 2:
+                    resultado = isFase2Superada();
+                    break;
+            }
+        }
         return resultado;
     }
-    
+
     @Override
-    public boolean autorizar() {        
+    public boolean autorizar() {
         //comprueba si no hay sido autorizada anteriormente y si es apta.
         if (!autorizada && aptaAutorizar()) {
             autorizada = true;
@@ -157,17 +163,18 @@ public abstract class VacunaAutorizacion implements IAautorizable {
     @Override
     public boolean rechazar() {
         //comprueba si no ha sido rechazada anteriormente. Una vacuna autorizada puede ser rechazada.
-        if (!rechazada) { 
+        if (!rechazada) {
             rechazada = true;
-            autorizada = false; 
+            autorizada = false;
             setFechaResultado();
-        }        
+        }
         return rechazada;
     }
-    
+
     /**
      * Indica la última fase completada y su resultado.
-     * @return 
+     *
+     * @return
      */
     public String investigacionActual() {
         String resultado = "";

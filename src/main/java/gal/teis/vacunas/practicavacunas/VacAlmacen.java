@@ -81,12 +81,10 @@ public class VacAlmacen {
     }
 
     /**
-     * 2.Buscar vacuna.// ver vacuna || No uso almacen.contains, porque para
-     * ello necesitaría el objeto vacuna en lugar del codigo
+     * 2.Buscar vacuna.// ver vacuna || 
      *
      * @param codigo
-     * @return devuelve toString de la vacuna si la encuentra, devuelve "" si no
-     * la encuentra.
+     * @return devuelve toString de la vacuna si la encuentra.
      */
     public String verVacuna(String codigo) {
         String resultado = Salidas.V_NO_ENCONTRADA;
@@ -133,7 +131,7 @@ public class VacAlmacen {
      *
      * @param codigo de la vacuna a inscribir
      * @param resultadoFase resultado de la fase especifica
-     * @param fase numero de la fase a inscribir
+     * @param fase numero de la fase a inscribir, debe coincidir con la fase actual. (se indica por seguridad)
      * @return true si realiza la operación con exito, false si no ha podido
      * realizar la operación
      */

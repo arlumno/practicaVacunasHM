@@ -40,6 +40,7 @@ public class Salidas {
     public static final String  MENU_OPC_10 = "Ver la última fase investigada de cada vacuna almacenada";
     public static final String  MENU_OPC_11 = "Cargar Vacunas de ejemplo";
     public static final String  MENU_OPC_12 = "Comprueba si un código es Valido";
+    public static final String  MENU_OPC_13 = "AYUDA / INSTRUCCIONES";
     
     public static final String  INFO_OPC_02 = "Indíca el código a buscar";    
     
@@ -84,10 +85,13 @@ public class Salidas {
 
     public static final String  EXITO_OPC_11 = "---Vacunas cargadas---";
     
-    public static final String  INFO_OPC_12 = "• El código tendrá el siguiente formato:\n"
+    public static final String  INFO_OPC_12 = "o El código tendrá el siguiente formato:\n"
                     + "o Comenzará por la letra V seguida de una vocal en mayúsculas.\n"
                     + "o A continuación, tres o cuatro letras minúsculas.\n"
                     + "o Finaliza, o con dos números del 4 al 7, o bien con el número 8";
+    
+    public static final String  FILE_OPC_13 = "src/main/java/gal/teis/vacunas/practicavacunas/leeme.txt";
+    public static final String  ERROR_OPC_13 = "Error al acceder al archivo.";
     
     // Mensages para peticiones genericas por consola.
     public static final String  PEDIR_CODIGO = "Indíca el código";
