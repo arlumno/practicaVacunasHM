@@ -66,7 +66,7 @@ public class Aplicacion {
         menu.addOpcion(Salidas.MENU_OPC_10); //10
         menu.addOpcion(Salidas.MENU_OPC_11); //11
         menu.addOpcion(Salidas.MENU_OPC_12); //12
-        menu.addOpcion(Salidas.MENU_OPC_13); //12
+        menu.addOpcion(Salidas.MENU_OPC_13); //13
         return menu;
     }
 
@@ -353,6 +353,9 @@ public class Aplicacion {
         }
     }
     
+    /**
+     * Instrucciones de uso.
+     */
     private static void opcion13extra() { 
         try{
             FileReader archivo = new FileReader(Salidas.FILE_OPC_13,Charset.forName("utf-8"));            
